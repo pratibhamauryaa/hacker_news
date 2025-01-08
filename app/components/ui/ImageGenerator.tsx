@@ -1,71 +1,94 @@
-import React, { useState } from "react";
-import axios from "axios";
+// // ImageGenerator.tsx
 
-const ImageGenerator: React.FC = () => {
-  const [prompt, setPrompt] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+// import React, { useEffect, useState } from 'react';
 
-  const API_TOKEN = "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"; // Replace with your token
-  const API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4";
+// interface ImageGeneratorProps {
+//   // A queue (array) of article titles or prompts
+//   inputQueue: string[];
+//   // Callback: pass the generated image back to the parent
+//   onImageGenerated: (prompt: string, imageUrl: string) => void;
+// }
 
-  const generateImage = async () => {
-    if (!prompt.trim()) {
-      setError("Please enter a prompt.");
-      return;
-    }
+// const ImageGenerator: React.FC<ImageGeneratorProps> = ({
+//   inputQueue,
+//   onImageGenerated,
+// }) => {
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState<string | null>(null);
 
-    setLoading(true);
-    setError(null);
+//   // // Your Hugging Face details
+//   // const API_TOKEN = 'Bearer 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'; 
+//   // const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4';
+//   const API_URL ='https://picsum.photos/600/300'
 
-    try {
-      const response = await axios.post(
-        API_URL,
-        { inputs: prompt },
-        {
-          headers: {
-            Authorization: `Bearer ${API_TOKEN}`,
-          },
-          responseType: "blob", // To handle binary image data
-        }
-      );
+//   // A small helper to add delay between calls (optional)
+//   // If Hugging Face complains about rate-limits, increase the delay.
+//   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-      // Convert the blob to a URL
-      const imageUrl = URL.createObjectURL(response.data);
-      setImageUrl(imageUrl);
-    } catch (err) {
-      console.error("Error generating image:", err);
-      setError("Failed to generate image. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+//   // The main function to call the API
+//   const generateImage = async (prompt: string): Promise<string> => {
+//     try {
+//       const response = await fetch(API_URL, {
+//         method: 'GET'
+//       });
+  
 
-  return (
-    <div>
-      <h1>AI Image Generator</h1>
-      <div>
-        <input
-          type="text"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Enter a prompt (e.g., 'A cat sitting on a windowsill')"
-          disabled={loading}
-        />
-        <button onClick={generateImage} disabled={loading}>
-          {loading ? "Generating..." : "Generate Image"}
-        </button>
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {imageUrl && (
-        <div>
-          <h2>Generated Image:</h2>
-          <img src={imageUrl} alt="Generated" style={{ maxWidth: "100%" }} />
-        </div>
-      )}
-    </div>
-  );
-};
+//       // If the response is an error, parse and throw it
+//       if (!response.ok) {
+//         const errMessage = await response.json();
+//         throw new Error(JSON.stringify(errMessage));
+//       }
 
-export default ImageGenerator;
+//       // Convert blob to an image URL
+//       const blob = await response.blob();
+//       return URL.createObjectURL(blob);
+//     } catch (err: any) {
+//       console.error('Error generating image:', err);
+//       throw err;
+//     }
+//   };
+
+//   useEffect(() => {
+//     /**
+//      *  Process the queue: one prompt at a time.
+//      *  1. Take the first prompt
+//      *  2. Call generateImage()
+//      *  3. on success, pass image url via onImageGenerated
+//      *  4. remove the prompt from the queue
+//      *  5. wait a short delay, then process the next
+//      */
+//     const processQueue = async () => {
+//       while (inputQueue.length > 0) {
+//         const currentPrompt = inputQueue[0];
+//         setLoading(true);
+//         setError(null);
+
+//         try {
+//           const imageUrl = await generateImage(currentPrompt);
+//           onImageGenerated(currentPrompt, imageUrl);
+//         } catch (err: any) {
+//           setError(err.message || 'Failed to generate image');
+//         } finally {
+//           setLoading(false);
+//           inputQueue.shift(); // remove the processed prompt
+//           await delay(0);  // optional: wait 3 seconds before next call
+//         }
+//       }
+//     };
+
+//     // Only start processing if we have items in the queue and we're not loading
+//     if (inputQueue.length > 0 && !loading) {
+//       processQueue();
+//     }
+//   }, [inputQueue, loading, onImageGenerated]);
+
+//   return (
+//     <div>
+//       {loading && <p>Generating image...</p>}
+//       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+//     </div>
+//   );
+// };
+
+// export default ImageGenerator;
+//later implement.
