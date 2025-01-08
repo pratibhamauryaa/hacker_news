@@ -17,7 +17,6 @@
 //   const [error, setError] = useState<string | null>(null);
 
 //   // // Your Hugging Face details
-//   // const API_TOKEN = 'Bearer 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'; 
 //   // const API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4';
 //   const API_URL ='https://picsum.photos/600/300'
 
