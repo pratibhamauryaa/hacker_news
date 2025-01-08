@@ -7,7 +7,7 @@ const ImageGenerator: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_TOKEN = "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"; // Replace with your token
+  const API_TOKEN = ""; // Replace with your token
   const API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4";
 
   const generateImage = async () => {
